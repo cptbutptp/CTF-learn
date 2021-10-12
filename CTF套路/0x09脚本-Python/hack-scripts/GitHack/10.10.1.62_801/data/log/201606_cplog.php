@@ -1,0 +1,10 @@
+<?PHP exit;?>	1465307876	admin	1	192.168.71.1		GET={}; POST={};
+<?PHP exit;?>	1465307878	admin	1	192.168.71.1	index	GET={}; POST={};
+<?PHP exit;?>	1465307881	admin	1	192.168.71.1	tools	GET={operation=updatecache; }; POST={};
+<?PHP exit;?>	1465307885	admin	1	192.168.71.1	setting	GET={operation=basic; }; POST={};
+<?PHP exit;?>	1465307889	admin	1	192.168.71.1	setting	GET={operation=imgwater; }; POST={};
+<?PHP exit;?>	1465307896	admin	1	192.168.71.1	misc	GET={operation=attachtype; }; POST={};
+<?PHP exit;?>	1465307903	admin	1	192.168.71.1	setting	GET={operation=attach; }; POST={};
+<?PHP exit;?>	1465307921	admin	1	192.168.71.1	setting	GET={edit=yes; anchor=basic; operation=attach; settingnew={attachdir=./data/attachment; attachurl=data/attachment; imagelib=1; imageimpath=/usr/local/bin/; thumbquality=100; attachimgpost=1; thumbwidth=400; thumbheight=300; ftp={port=21; attachdir=.; }; portalarticleimgthumbclosed=1; }; settingsubmit=提交; }; POST={anchor=basic; operation=attach; settingnew={attachdir=./data/attachment; attachurl=data/attachment; imagelib=1; imageimpath=/usr/local/bin/; thumbquality=100; attachimgpost=1; thumbwidth=400; thumbheight=300; ftp={port=21; attachdir=.; }; portalarticleimgthumbclosed=1; }; settingsubmit=提交; };
+<?PHP exit;?>	1465307924	admin	1	192.168.71.1	setting	GET={operation=attach; }; POST={};
+<?PHP exit;?>	1465307927	admin	1	192.168.71.1	checktools	GET={operation=imagepreview; previewthumb=yes; frame=no; anchor=basic; settingnew={attachdir=./data/attachment; attachurl=data/attachment; imagelib=1; imageimpath=/usr/local/bin/; thumbquality=100; attachimgpost=1; thumbwidth=400; thumbheight=300; ftp={port=21; attachdir=.; }; portalarticleimgthumbclosed=1; }; }; POST={anchor=basic; operation=imagepreview; settingnew={attachdir=./data/attachment; attachurl=data/attachment; imagelib=1; imageimpath=/usr/local/bin/; thumbquality=100; attachimgpost=1; thumbwidth=400; thumbheight=300; ftp={port=21; attachdir=.; }; portalarticleimgthumbclosed=1; }; };

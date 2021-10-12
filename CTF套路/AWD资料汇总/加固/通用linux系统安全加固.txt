@@ -1,0 +1,137 @@
+
+
+
+
+linux系统安全加固手册 
+
+
+
+
+
+
+
+
+
+IT运行能力 
+ 
+- 2 - 系统安全加固手册 1 帐户安全配置要求 1.1 创建/etc/shadow影子口令文件 配置项名称 设置影子口令模式 检查方法 执行： #more /etc/shadow 查看是否存在该文件 操作步骤 1、执行备份： #cp –p /etc/passwd /etc/passwd_bak 2、切换到影子口令模式： #pwconv 回退操作 执行： #pwunconv #cp /etc/passwd_bak /etc/passwd  风险说明 系统默认使用标准口令模式，切换不成功可能导致整个用户管理失效 1.2 建立多帐户组，将用户账号分配到相应的帐户组 配置项名称 建立多帐户组，将用户账号分配到相应的帐户组 检查方法 1、执行： #more /etc/group  #more /etc/shadow 查看每个组中的用户或每个用户属于那个组 2、确认需要修改用户组的用户 操作步骤 1、执行备份： #cp –p /etc/group /etc/group_bak 
+
+IT运行能力 
+ 
+- 3 - 系统安全加固手册 2、修改用户所属组： # usermod –g  group  username 回退操作 执行： #cp /etc/group_bak /etc/group 风险说明 修改用户所属组可能导致某些应用无法正常运行 1.3 删除或锁定可能无用的帐户 配置项名称 删除或锁定可能无用的帐户 检查方法 1、执行： #more /etc/passwd 查看是否存在以下可能无用的帐户： hpsmh、named、uucp、nuucp、adm、daemon、bin、lp 2、与管理员确认需要锁定的帐户 操作步骤 1、执行备份： #cp –p /etc/passwd /etc/passwd_bak 2、锁定无用帐户： #passwd -l username 回退操作 执行： #cp /etc/passwd_bak /etc/passwd  风险说明 锁定某些用户可能导致某些应用无法正常运行 1.4 删除可能无用的用户组 配置项名称 删除可能无用的用户组 检查方法 1、执行： #more /etc/group 查看是否存在以下可能无用的用户组： lp nuucp nogroup 
+
+IT运行能力 
+ 
+- 4 - 系统安全加固手册 2、与管理员确认需要删除的用户组 操作步骤 1、执行备份： #cp –p /etc/group /etc/group_bak 2、删除无用的用户组： #groupdel groupname 回退操作 执行： #cp /etc/group_bak /etc/group 风险说明 删除某些组可能导致某些应用无法正常运行 1.5 检查是否存在空密码的帐户 配置项名称 检查是否存在空密码的帐户 检查方法 执行下列命令，检查是否存在空密码的帐户 logins –p 应无回结果 操作步骤 1、执行备份： #cp –p /etc/passwd /etc/passwd_bak #cp -p /etc/shadow /etc/shadow_bak 2、锁定空密码帐户或使用passwd命令设置复杂密码 #passwd –l username 回退操作 执行： #cp –p /etc/passwd_bak /etc/passwd #cp -p /etc/shadow_bak /etc/shadow 风险说明 锁定某些帐户可能导致某些应用无法正常运行 1.6 设置口令策略满足复杂度要求 配置项名称 设置口令策略满足复杂度要求 检查方法 1、执行下列命令，检查是否存在空密码的帐户 #logins –p 
+
+IT运行能力 
+ 
+- 5 - 系统安全加固手册 应无返回结果 2、执行： #more /etc/default/security 检查是否满足以下各项复杂度参数： MIN_PASSWORD_LENGTH=6 PASSWORD_MIN_UPPER_CASE_CHARS=1 PASSWORD_MIN_LOWER_CASE_CHARS=1 PASSWORD_MIN_DIGIT_CHARS=1 PASSWORD_MIN_SPECIAL_CHARS=1 操作步骤 1、执行备份： #cp –p /etc/default/security /etc/default/security_bak #cp –p /etc/passwd /etc/passwd_bak 2、执行下列命令，编辑/etc/default/security #vi /etc/default/security 修改以下各项复杂度参数： MIN_PASSWORD_LENGTH=6 PASSWORD_MIN_UPPER_CASE_CHARS=1 PASSWORD_MIN_LOWER_CASE_CHARS=1 PASSWORD_MIN_DIGIT_CHARS=1 PASSWORD_MIN_SPECIAL_CHARS=1 回退操作 执行：  #cp /etc/default/security_bak /etc/default/security #cp /etc/passwd_bak /etc/passwd 风险说明 可能导致非root用户修改自己的密码时多次不成功 1.7 设置帐户口令生存周期 配置项名称 设置帐户口令生存周期 检查方法 执行： #more /etc/default/security 
+
+IT运行能力 
+ 
+- 6 - 系统安全加固手册 查看是否存在以下各项参数： PASSWORD_MAXDAYS=90 PASSWORD_WARNDAYS=28 操作步骤 1、执行备份： #cp –p /etc/default/security /etc/default/security_bak #cp –p /etc/passwd /etc/passwd_bak 2、执行下列命令，编辑/etc/default/security #vi /etc/default/security 修改以下各项参数： PASSWORD_MAXDAYS=90 PASSWORD_WARNDAYS=28 回退操作 执行：  #cp /etc/default/security_bak /etc/default/security #cp /etc/passwd_bak /etc/passwd 风险说明 可能在密码过期后影响正常使用及维护 1.8 设定密码历史，不能重复使用最近5次（含5次）内已使用的口令 配置项名称 应配置设备，使用户不能重复使用最近5次（含5次）内已使用的口令 检查方法 执行： #more /etc/default/security 查看是否存在以下参数： PASSWORD_HISTORY_DEPTH=5 操作步骤 1、执行备份： #cp –p /etc/default/security /etc/default/security_bak #cp –p /etc/passwd /etc/passwd_bak 2、执行下列命令，编辑/etc/default/security #vi /etc/default/security 
+
+IT运行能力 
+ 
+- 7 - 系统安全加固手册 修改以下参数： PASSWORD_HISTORY_DEPTH=5 回退操作 执行：  #cp /etc/default/security_bak /etc/default/security #cp /etc/passwd_bak /etc/passwd 风险说明 低风险 1.9 限制root用户远程登录 配置项名称 root用户远程登录限制 检查方法 执行： #more /etc/securetty 检查是否有下列行： Console 执行： #more /opt/ssh/etc/sshd_config 检查是否有PermitRootLogin no 操作步骤 1、执行备份： #cp –p /etc/securetty / etc/securetty_bak #cp -p /opt/ssh/etc/sshd_config /opt/ssh/etc/sshd_config_bak 2、新建一个普通用户并设置高强度密码： #useradd username #passwd username 3、禁止root用户远程登录系统： #vi /etc/securetty 去掉console前面的注释，保存退出 #vi /opt/ssh/etc/sshd_config 将PermitRootLogin后的yes改为no 回退操作 执行： 
+
+IT运行能力 
+ 
+- 8 - 系统安全加固手册 #cp /etc/securetty_bak /etc/securetty #cp -p /opt/ssh/etc/sshd_config_bak /opt/ssh/etc/sshd_config 风险说明 严重改变维护人员操作习惯，必须新建一个能够执行交互式登录的普通用户并能够通过su提升权限，可能带来新的威胁 1.10 检查passwd、group文件权限设置 配置项名称 检查passwd、group文件权限设置  检查方法 执行： #ls –l /etc/passwd /etc/group 操作步骤 1、执行备份： #cp –p /etc/passwd /etc/passwd_bak #cp –p /etc/group /etc/group_bak 2、修改文件权限： #chmod 644 /etc/passwd #chmod 644 /etc/group 回    退 执行： #cp /etc/passwd_bak /etc/passwd  #cp /etc/group_bak /etc/group  风险说明 权限设置不当可能导致无法执行用户管理，并可能造成某些应用运行异常  1.11 删除帐户目录下的.netrc/.rhosts/.shosts文件 配置项名称 删除帐户目录下的.netrc/.rhosts/.shosts文件 检查方法 执行下列命令，检查帐户目录下是否存在.netrc/.rhosts/.shosts文件 # logins -ox | cut -f6 -d: | grep /home/ | while read dir; do ls -a "$dir" ;done 操作步骤 1、执行备份： 
+
+IT运行能力 
+ 
+- 9 - 系统安全加固手册 使用cp命令备份.netrc/.rhosts/.shosts文件 2、删除文件： 使用rm -f命令删除.netrc/.rhosts/.shosts文件 回退操作 使用cp命令恢复被删除的.netrc/.rhosts/.shosts文件 风险说明 可能影响需要使用远程连接的应用 1.12 系统umask设置 配置项名称 系统umask设置 检查方法 执行： #more /etc/profile 检查系统umask值 操作步骤 1、执行备份： #cp -p /etc/profile /etc/profile_bak 2、修改umask设置： #vi /etc/profile 将umask值修改为027，保存退出 回退操作 执行： #cp /etc/profile_bak /etc/profile 风险说明 umask设置不当可能导致某些应用无法正确自动创建目录或文件，从而运行异常   2 访问、认证安全配置要求 2.1 远程登录取消telnet采用ssh 配置项名称 远程登录取消telnet采用ssh 检查方法 查看SSH、telnet服务状态： 
+
+IT运行能力 
+ 
+- 10 - 系统安全加固手册 #ps –elf | grep ssh #ps –elf | grep telnet SSH服务状态查看结果为：online  telnet服务状态查看结果为：disabled 操作步骤 1、备份#cp –p /etc/inetd.conf /etc/inetd.conf_bak 2、修改/etc/inetd.conf文件，将telnet行注释掉 #telnet stream tcp nowait root /usr/lbin/telnetd telnetd 3、安装ssh软件包，通过#/opt/ssh/sbin/sshd start来启动SSH。 回退操作 执行： #cp –p /etc/inetd.conf_bak /etc/inetd.conf 启动telnet #/usr/lbin/telnetd start 停止SSH #/opt/ssh/sbin/sshd stop 风险说明 影响维护人员操作习惯，需要重启服务 2.2 限制系统帐户FTP登录 配置项名称 限制root、daemon、bin、sys、adm、lp、uucp、nuucp、nobody、hpdb、useradm等系统帐户FTP登录 检查方法 执行： #cat /etc/ftpd/ftpusers 查看具体的禁止FTP登陆系统的用户名单 操作步骤 1、执行备份： #cp -p /etc/ftpd/ftpusers /etc/ftpd/ftpusers_bak 2、禁止用户FTP登录系统： #vi /etc/ftpd/ftpusers 每一个帐户一行，添加以下帐户禁止FTP登录 root、daemon、bin、sys、adm、lp、uucp、nuucp、nobody、hpdb、useradm 回退操作 执行： 
+
+IT运行能力 
+ 
+- 11 - 系统安全加固手册 #cp /etc/ftpd/ftpusers_bak /etc/ftpd/ftpusers 风险说明 禁止某些帐户登录FTP可能导致某些应用无法正常运行 2.3 配置允许访问inetd服务的IP范围或主机名 配置项名称 配置允许访问inetd服务的IP范围或主机名 检查方法 执行： #cat /var/adm/inetd.sec 查看有无类似login deny 192.54.24.5 cory.berkeley.edu testlan配置 操作步骤 1、执行备份： #cp -p /var/adm/inetd.sec /var/adm/inetd.sec_bak 2、添加允许访问inetd服务的IP范围或主机名： #vi /var/adm/inetd.sec 按照如下格式添加IP范围或主机名 service name { allow | deny }{ hostaddrs | hostnames |netaddrs | netnames } 回退操作 执行： #cp /var/adm/inetd.sec_bak /var/adm/inetd.sec 风险说明 需确认IP信任范围，设置不当会导致网络服务通信异常 2.4 禁止除root外帐户使用at/cron 配置项名称 禁止除root外帐户使用at/cron 检查方法 执行： # cd /var/adm/cron #cat cron.allow #cat at.allow 查看是否存在root； 执行： #cat cron.deny 
+
+IT运行能力 
+ 
+- 12 - 系统安全加固手册 #cat at.deny 检查是否存在cron.deny和at.deny文件，若存在，应删除。 操作步骤 1、执行备份 # cd /var/adm/cron #cp -p cron.deny cron.deny_bak #cp -p at.deny at.deny_bak #cp -p cron.allow cron.allow_bak #cp -p at.allow at.allow _bak 2、添加root到cron.allow和at.allow，并删除cron.deny和at.deny。 #cd /var/adm/cron #rm -f cron.deny at.deny #echo root >cron.allow #echo root >at.allow #chown root:sys cron.allow at.allow #chmod 400 cron.allow at.allow 回退操作 # cd /var/adm/cron #cp -p cron.deny_bak cron.deny #cp -p at.deny_bak at.deny #cp -p cron.allow_bak cron.allow #cp -p at.allow_bak at.allow 风险说明 除root外帐户不能使用at/cron，可能影响某些应用。 2.5 设定连续认证失败次数超过6次（不含6次）锁定该账号 配置项名称 配置当用户连续认证失败次数超过6次（不含6次），锁定该用户使用的账号。 检查方法 执行： #cat /etc/default/security 检查是否存在AUTH_MAXTRIES=6 操作步骤 1、执行备份 #cp -p /etc/default/security /etc/default/security_bak 2、执行下列命令，设置最大登录认证重试次数锁定帐户为6次 echo AUTH_MAXTRIES=6 >> /etc/default/security 
+
+IT运行能力 
+ 
+- 13 - 系统安全加固手册 回退操作 #cp -p /etc/default/security_bak /etc/default/security 风险说明 root账号也在锁定的限制范围内，一旦root被锁定，就需要光盘引导，因此该配置要慎用。 3 文件系统安全配置要求 3.1 重要目录和文件的权限设置 配置项名称 重要目录和文件的权限设置 检查方法 执行以下命令检查目录和文件的权限设置情况： #ls –l /etc/ #ls –l /tmp/ #ls –l /etc/default/ #ls -l /etc/rc.config.d/ 操作步骤 1、执行备份： 使用cp命令备份需要修改权限的文件或目录 2、权限修改： 使用chmod命令修改文件或目录权限 回退操作 使用cp命令恢复被修改权限的文件或目录 或使用chmod命令恢复权限 风险说明 修改某些重要的配置文件的权限可能导致系统功能或应用异常 3.2 检查没有所有者的文件或目录 配置项名称 检查没有所有者的文件或目录 检查方法 执行： #find / \( -nouser -o -nogroup \) -exec ls -al {} \; 咨询管理员找到的文件或目录是否应用所需 操作步骤 1、执行备份： 
+
+IT运行能力 
+ 
+- 14 - 系统安全加固手册 使用cp命令备份没有所有者的文件或目录 2、使用chmod命令添加属主或删除没有所有者的文件或目录： #rm –rf filename 回退操作 使用cp命令恢复被删除的没有所有者的文件或目录 风险说明 执行检查会大量消耗系统资源，需要确认无所有者的文件的具体用途 4 网络服务安全配置要求 4.1 禁止NIS/NIS+服务以守护方式运行 配置项名称 禁止NIS/NIS+服务以守护方式运行Network Information System 检查方法 执行： #more /etc/rc.config.d/namesvrs 查看该文件中是否存在以下参数： NIS_MASTER_SERVER=0 NIS_SLAVE_SERVER=0 NIS_CLIENT=0 NISPLUS_SERVER=0 NISPLUS_CLIENT=0 操作步骤 1、执行备份： #cp -p /etc/rc.config.d/namesvrs /etc/rc.config.d/namesvrs_bak 2、编辑/etc/rc.config.d/namesvrs文件，设置参数： #ch_rc -a -p NIS_MASTER_SERVER=0 -p NIS_SLAVE_SERVER=0 -p NIS_CLIENT=0 -p NISPLUS_SERVER=0 -p NISPLUS_CLIENT=0 /etc/rc.config.d/namesvrs 回退操作 #cp -p /etc/rc.config.d/namesvrs_bak /etc/rc.config.d/namesvrs 风险说明 NIS/NIS+服务无法自动启动 
+
+IT运行能力 
+ 
+- 15 - 系统安全加固手册 4.2 禁用打印服务以守护方式运行 配置项名称 禁止打印服务以守护方式运行 检查方法 执行： #more /etc/rc.config.d/tps 查看该文件中是否存在XPRINTSERVERS="''" #more /etc/rc.config.d/lp 查看该文件中是否存在LP=0 #more /etc/rc.config.d/pd 查看该文件中是否存在PD_CLIENT=0 操作步骤 1、执行备份： #cp -p /etc/rc.config.d/tps /etc/rc.config.d/tps_bak #cp -p /etc/rc.config.d/lp /etc/rc.config.d/lp_bak #cp -p /etc/rc.config.d/pd /etc/rc.config.d/pd_bak 2、设置参数： #ch_rc -a -p XPRINTSERVERS="''" /etc/rc.config.d/tps  #ch_rc -a -p LP=0 /etc/rc.config.d/lp  #ch_rc -a -p PD_CLIENT=0 /etc/rc.config.d/pd 回退操作 #cp -p /etc/rc.config.d/namesvrs_bak /etc/rc.config.d/namesvrs 风险说明 打印服务无法自动启动 4.3 禁用SENDMAIL服务以守护方式运行 配置项名称 禁止SENDMAIL服务以守护方式运行 检查方法 执行： #more /etc/rc.config.d/mailservs 查看该文件中是否存在SENDMAIL_SERVER=0 操作步骤 1、执行备份： 
+
+IT运行能力 
+ 
+- 16 - 系统安全加固手册 #cp -p /etc/rc.config.d/mailservs /etc/rc.config.d/mailservs_bak #cp -p /var/spool/cron/crontabs/root /var/spool/cron/crontabs/root_bak 2、设置参数： #ch_rc -a -p SENDMAIL_SERVER=0 /etc/rc.config.d/mailservs  #cd /var/spool/cron/crontabs  #crontab -l >root.tmp  #echo '0 * * * * /usr/lib/sendmail -q' >>root.tmp  #crontab root.tmp  #rm -f root.tmp 回退操作 #cp -p /etc/rc.config.d/mailservs /etc/rc.config.d/mailservs_bak #cp -p /var/spool/cron/crontabs/root /var/spool/cron/crontabs/root_bak 风险说明 导致无法收发邮件，需确认服务器用途 4.4 禁用不必要的标准启动服务 配置项名称 禁用不必要的标准启动服务 检查方法 检查SNAplus2服务，执行： #more /etc/rc.config.d/snaplus2 查看该文件中是否存在START_SNAPLUS=0、START_SNANODE=0、START_SNAINETD=0 检查多播路由服务，执行： #more /etc/rc.config.d/netdaemons 查看该文件中是否存在MROUTED=0、RWHOD=0、DDFA=0、START_RBOOTD=0 检查DFS分布式文件系统服务，执行： #more /etc/rc.config.d/dfs 查看该文件中是否存在DCE_KRPC=0、DFS_CORE=0、DFS_CLIENT=0 、DFS_SERVER=0、DFS_EPISODE=0、EPIINIT=0、DFSEXPORT=0、BOSSERVER=0、DFSBIND=0、FXD=0、 
+
+IT运行能力 
+ 
+- 17 - 系统安全加固手册 MEMCACHE=0、DFSGWD=0、DISKCACHEFORDFS=0 检查逆地址解析服务，执行： #more /etc/rc.config.d/netconf 查看该文件中是否存在RARPD=0、RDPD=0 检查响应PTY（伪终端）请求守护进程，执行： #more /etc/rc.config.d/ptydaemon 查看该文件中是否存在PTYDAEMON_START=0 检查响应VT（通过LAN登录其他系统）请求守护进程，执行： #more /etc/rc.config.d/vt 查看该文件中是否存在VTDAEMON_START=0 检查域名守护进程服务，执行： #more /etc/rc.config.d/namesvrs 查看该文件中是否存在NAMED=0 检查SNMP代理进程服务，执行： #more /etc/rc.config.d/peer.snmpd 查看该文件中是否存在PEER_SNMPD_START=0 检查授权管理守护进程服务，执行： #more /etc/rc.config.d/i4lmd 查看该文件中是否存在START_I4LMD=0 检查SNAplus2服务，执行： #more /etc/rc.config.d/snaplus2 查看该文件中是否存在START_SNAPLUS=0、START_SNANODE=0、START_SNAINETD=0 检查X字体服务，执行： #more /etc/rc.config.d/xfs 查看该文件中是否存在RUN_X_FONT_SERVER=0 检查语音服务，执行： #more /etc/rc.config.d/audio 查看该文件中是否存在AUDIO_SERVER=0 
+
+IT运行能力 
+ 
+- 18 - 系统安全加固手册 检查SLSD（Single-Logical-Screen-Daemon）服务，执行： #more /etc/rc.config.d/slsd 查看该文件中是否存在SLSD_DAEMON=0 检查SAMBA服务，执行： #more /etc/rc.config.d/samba 查看该文件中是否存在RUN_SAMBA=0 检查CIFS客户端服务，执行： #more /etc/rc.config.d/cifsclient 查看该文件中是否存在RUN_CIFSCLIENT=0 检查NFS启动服务，执行： #more /etc/rc.config.d/nfsconf 查看该文件中是否存在NFS_SERVER=0、NFS_CLIENT=0 检查Netscape FastTrack Server服务，执行： #more /etc/rc.config.d/ns-ftrack 查看该文件中是否存在NS_FTRACK=0 检查APACHE服务，执行： #more /etc/rc.config.d/apacheconf 查看该文件中是否存在APACHE_START=0 检查基于RPC的服务，执行： #ls /sbin/rc2.d/.NOS400nfs.core 查看是否存在该文件 操作步骤 1、执行备份： 使用cp命令备份需要修改的文件 2、设置参数： 执行下列命令，禁用SNAplus2服务 #ch_rc -a -p START_SNAPLUS=0 -p START_SNANODE=0 -p START_SNAINETD=0 /etc/rc.config.d/snaplus2 执行下列命令，禁用多播路由服务 #ch_rc -a -p MROUTED=0 -p RWHOD=0 -p DDFA=0 -p 
+
+IT运行能力 
+ 
+- 19 - 系统安全加固手册 START_RBOOTD=0 /etc/rc.config.d/netdaemons 执行下列命令，禁用DFS分布式文件系统服务 #ch_rc -a -p DCE_KRPC=0 -p DFS_CORE=0 -p DFS_CLIENT=0 -p DFS_SERVER=0 -p DFS_EPISODE=0 -p EPIINIT=0 -p DFSEXPORT=0 -p BOSSERVER=0 -p DFSBIND=0 -p FXD=0 -p MEMCACHE=0 -p DFSGWD=0 -p DISKCACHEFORDFS=0 /etc/rc.config.d/dfs 执行下列命令，禁用逆地址解析服务 #ch_rc -a -p RARPD=0 -p RDPD=0 /etc/rc.config.d/netconf 执行下列命令，禁用响应PTY（伪终端）请求守护进程 #ch_rc -a -p PTYDAEMON_START=0 /etc/rc.config.d/ptydaemon 执行下列命令，禁用响应VT（通过LAN登录其他系统）请求守护进程 #ch_rc -a -p VTDAEMON_START=0 /etc/rc.config.d/vt 执行下列命令，禁用域名守护进程 #ch_rc -a -p NAMED=0 /etc/rc.config.d/namesvrs 执行下列命令，禁用SNMP代理进程 #ch_rc -a -p PEER_SNMPD_START=0 /etc/rc.config.d/peer.snmpd 执行下列命令，禁用授权管理守护进程 #ch_rc -a -p START_I4LMD=0 /etc/rc.config.d/i4lmd 执行下列命令，禁用X字体服务 #ch_rc -a -p RUN_X_FONT_SERVER=0 /etc/rc.config.d/xfs 执行下列命令，禁用语音服务 #ch_rc -a -p AUDIO_SERVER=0 /etc/rc.config.d/audio 执行下列命令，禁用SLSD（Single-Logical-Screen-Daemon）服务 #ch_rc -a -p SLSD_DAEMON=0 /etc/rc.config.d/slsd 执行下列命令，禁用SAMBA服务 #ch_rc -a -p RUN_SAMBA=0 /etc/rc.config.d/samba 执行下列命令，禁用CIFS客户端服务 #ch_rc -a -p RUN_CIFSCLIENT=0 /etc/rc.config.d/cifsclient 执行下列命令，禁用NFS服务 #ch_rc -a -p NFS_SERVER=0 -p NFS_CLIENT=0 /etc/rc.config.d/nfsconf 执行下列命令，禁用Netscape FastTrack Server服务 #ch_rc -a -p NS_FTRACK=0 /etc/rc.config.d/ns-ftrack 执行下列命令，禁用APACHE服务 
+
+IT运行能力 
+ 
+- 20 - 系统安全加固手册 #ch_rc -a -p APACHE_START=0 /etc/rc.config.d/apacheconf 执行下列命令，禁用基于RPC的服务 #mv -f /sbin/rc2.d/S400nfs.core /sbin/rc2.d/.NOS400nfs.core 回退操作 使用cp命令恢复被修改的文件 风险说明 禁用服务会影响某些应用运行  4.5 禁用不必要的inetd服务 配置项名称 inetd中基本网络服务配置 检查方法 执行： #more /etc/inetd.conf 检查基本的网络服务的开启或禁止情况 操作步骤 1、执行备份： #cp –p /etc/inetd.conf /etc/inetd.conf_bak 2、禁止非必要服务： #vi /etc/inetd.conf 在非必要服务前面加#注释 3、重新启动inetd： #/sbin/init.d/inetd {stop|start} 回退操作 执行： #cp /etc/inetd.conf_bak /etc/inetd.conf #/sbin/init.d/inetd {stop|start} 风险说明 关闭某些网络服务可能导致应用出现问题，重启inetd服务可能导致业务中断 
+
+IT运行能力 
+ 
+- 21 - 系统安全加固手册 5 IP协议安全配置要求 5.1 关闭IP转发 配置项名称 关闭IP转发 检查方法 执行： #ndd -get /dev/ip ip_forwarding 查看是否关闭IP转发，返回值应为0 操作步骤 1、执行备份 记录需要修改的可调参数值 #cp -p /etc/rc.config.d/nddconf /etc/rc.config.d/nddconf_bak 2、执行下列命令，设置参数 使参数在当前系统状态下临时生效： #ndd -set /dev/ip ip_forwarding 0 建立启动项，使参数重启后永久生效： #cd /etc/rc.config.d #cat <<EOF >> nddconf # Don't ip forwarding TRANSPORT_NAME[0]=ip NDD_NAME[0]= ip_forwarding NDD_VALUE[0]=0 EOF  回退操作 1、使用ndd -set恢复修改前的参数 2、执行： #cp -p /etc/rc.config.d/nddconf_bak /etc/rc.config.d/nddconf 风险说明 可能导致路由错误，无法通信。 
+
+IT运行能力 
+ 
+- 22 - 系统安全加固手册 5.2 关闭转发源路由包 配置项名称 关闭转发源路由包 检查方法 执行： #ndd -get /dev/ip ip_forward_src_routed 查看是否关闭转发源路由包，返回值应为0 操作步骤 1、执行备份 记录需要修改的可调参数值 #cp -p /etc/rc.config.d/nddconf /etc/rc.config.d/nddconf_bak 2、执行下列命令，设置参数 使参数在当前系统状态下临时生效： #ndd -set /dev/ip ip_forward_src_routed 0 建立启动项，使参数重启后永久生效： #cd /etc/rc.config.d #cat <<EOF >> nddconf # Drop source-routed packets TRANSPORT_NAME[1]=ip NDD_NAME[1]=ip_forward_src_routed NDD_VALUE[1]=0 EOF  回退操作 1、使用ndd -set恢复修改前的参数 2、执行： #cp -p /etc/rc.config.d/nddconf_bak /etc/rc.config.d/nddconf 风险说明 可能导致路由错误，无法通信。 5.3 增大最大半连接数防范SYN攻击 配置项名称 增大最大半连接数 
+
+IT运行能力 
+ 
+- 23 - 系统安全加固手册 检查方法 执行： # ndd -get /dev/tcp tcp_syn_rcvd_max 查看返回值应最小为4096 操作步骤 1、执行备份 记录需要修改的可调参数值 #cp -p /etc/rc.config.d/nddconf /etc/rc.config.d/nddconf_bak 2、执行下列命令，设置参数 使参数在当前系统状态下临时生效： #ndd -set /dev/tcp tcp_syn_rcvd_max 4096 建立启动项，使参数重启后永久生效： #cd /etc/rc.config.d #cat <<EOF >> nddconf # Increase size of half-open connection queue  TRANSPORT_NAME[2]=tcp  NDD_NAME[2]=tcp_syn_rcvd_max  NDD_VALUE[2]=4096 EOF  回退操作 1、使用ndd -set恢复修改前的参数 2、执行： #cp -p /etc/rc.config.d/nddconf_bak /etc/rc.config.d/nddconf 风险说明 可能影响网络应用 5.4 关闭ICMP重定向 配置项名称 关闭ICMP重定向 检查方法 执行： #ndd -get /dev/ip ip_send_redirects 查看是否关闭ICMP重定向，返回值应为0 
+
+IT运行能力 
+ 
+- 24 - 系统安全加固手册 操作步骤 1、执行备份 记录需要修改的可调参数值 #cp -p /etc/rc.config.d/nddconf /etc/rc.config.d/nddconf_bak 2、执行下列命令，设置参数 使参数在当前系统状态下临时生效： #ndd -set /dev/ip ip_send_redirects 0 建立启动项，使参数重启后永久生效： #cd /etc/rc.config.d #cat <<EOF >> nddconf # Don't send ip redirects TRANSPORT_NAME[3]=ip NDD_NAME[3]= ip_send_redirects NDD_VALUE[3]=0 EOF  回退操作 1、使用ndd -set恢复修改前的参数 2、执行： #cp -p /etc/rc.config.d/nddconf_bak /etc/rc.config.d/nddconf 风险说明 可能导致路由错误，无法通信。 5.5 关闭响应echo广播 配置项名称 关闭响应echo广播 检查方法 执行： #ndd -get /dev/ip ip_forward_directed_broadcasts #ndd -get /dev/ip ip_respond_to_echo_broadcast 查看是否关闭IP转发，返回值应为0 操作步骤 1、执行备份 记录需要修改的可调参数值 #cp -p /etc/rc.config.d/nddconf /etc/rc.config.d/nddconf_bak 
+
+IT运行能力 
+ 
+- 25 - 系统安全加固手册 2、执行下列命令，设置参数 使参数在当前系统状态下临时生效： #ndd -set /dev/ip ip_forward_directed_broadcasts 0 #ndd -set /dev/ip ip_respond_to_echo_broadcast 0 建立启动项，使参数重启后永久生效： #cd /etc/rc.config.d #cat <<EOF >> nddconf # Don't forward directed broadcasts TRANSPORT_NAME[4]=ip NDD_NAME[4]=ip_forward_directed_broadcasts NDD_VALUE[4]=0 # Don’t respond to broadcast echo requests TRANSPORT_NAME[5]=ip NDD_NAME[5]=ip_respond_to_echo_broadcast NDD_VALUE[5]=0 EOF #chown root:sys nddconf #chmod go-w,ug-s nddconf 回退操作 1、使用ndd -set恢复修改前的参数 2、执行： #cp -p /etc/rc.config.d/nddconf_bak /etc/rc.config.d/nddconf 风险说明 需确认服务器用途 5.6 关闭响应地址掩码和时间戳广播防止探测 配置项名称 关闭响应地址掩码和时间戳广播防止探测 检查方法 执行： #ndd -get /dev/ip ip_respond_to_address_mask_broadcast #ndd -get /dev/ip ip_respond_to_timestamp_broadcast 
+
+IT运行能力 
+ 
+- 26 - 系统安全加固手册 返回值应为0 操作步骤 1、执行备份 记录需要修改的可调参数值 #cp -p /etc/rc.config.d/nddconf /etc/rc.config.d/nddconf_bak 2、执行下列命令，设置参数 使参数在当前系统状态下临时生效： #ndd -set /dev/ip ip_respond_to_address_mask_broadcast 0 #ndd -set /dev/ip ip_respond_to_timestamp_broadcast 0 建立启动项，使参数重启后永久生效： #cd /etc/rc.config.d #cat <<EOF >> nddconf # Don't respond to ICMP address mask requests TRANSPORT_NAME[6]=ip NDD_NAME[6]=ip_respond_to_address_mask_broadcast NDD_VALUE[6]=0 # Don't respond to broadcast ICMP tstamp reqs TRANSPORT_NAME[7]=ip NDD_NAME[7]=ip_respond_to_timestamp_broadcast NDD_VALUE[7]=0 EOF #chown root:sys nddconf #chmod go-w,ug-s nddconf 回退操作 1、使用ndd -set恢复修改前的参数 2、执行： #cp -p /etc/rc.config.d/nddconf_bak /etc/rc.config.d/nddconf 风险说明 可能影响网络通信 
+
+IT运行能力 
+ 
+- 27 - 系统安全加固手册 6 日志安全配置要求 6.1 非日志服务器禁止接收syslog 配置项名称 非日志服务器禁止接收syslog 检查方法 执行： #cat /etc/rc.config.d/syslogd 检查是否存在SYSLOGD_OPTS="-N" 操作步骤 1、执行备份 #cp -p /etc/rc.config.d/syslogd /etc/rc.config.d/syslogd_bak 2、执行下列命令，添加SYSLOGD_OPTS="-N" #ch_rc -a -p SYSLOGD_OPTS="-N" /etc/rc.config.d/syslogd 3、重启syslogd #/sbin/init.d/syslogd stop #/sbin/init.d/syslogd start 回退操作 #cp -p /etc/rc.config.d/syslogd_bak /etc/rc.config.d/syslogd 风险说明 低风险 6.2 启用inetd日志记录 配置项名称 启用inetd日志记录 检查方法 执行： #cat /etc/rc.config.d/netdaemons | grep INETD_ARGS=-l 查看该文件是否存在INETD_ARGS=-l 操作步骤 1、执行备份 #cp -p /etc/rc.config.d/netdaemons /etc/rc.config.d/netdaemons_bak 2、执行下列命令，设置参数 # ch_rc -a -p INETD_ARGS=-l /etc/rc.config.d/netdaemons 3、重新启动inetd服务 #/sbin/init.d/inetd {stop|start} 回退操作 #cp -p /etc/rc.config.d/netdaemons_bak /etc/rc.config.d/netdaemons 风险说明 大量的日志记录可能影响系统性能并占用大量磁盘空间，需要重启服务 
+
+IT运行能力 
+ 
+- 28 - 系统安全加固手册 6.3 配置SYSLOG 配置项名称 syslogd的运行和配置安全 检查方法 执行： #ps -eaf | grep syslog 检查syslogd进程是否运行 #cat /etc/syslog.conf 检查配置文件的内容 操作步骤 1、执行备份： #cp –p /etc/syslog.conf /etc/syslog.conf_bak 2、配置syslog： 确保syslog的运行 配置文件的内容应包括以下信息： mail.debug           /usr/spool/mqueue/syslog *.info,mail.none       /var/adm/syslog/syslog *.alert               /dev/console *.alert               root *.emerg              * 3、重启syslog服务： #/sbin/init.d/syslogd stop #/sbin/init.d/syslogd start 回退操作 执行： #cp /etc/syslog.conf_bak /etc/syslog.conf #/sbin/init.d/syslogd stop #/sbin/init.d/syslogd start 风险说明 大量的日志记录可能影响系统性能并占用大量磁盘空间，需要重启服务 
+
+IT运行能力 
+ 
+- 29 - 系统安全加固手册 6.4 记录FTP会话与命令 配置项名称 将FTP会话与命令发送到syslog 检查方法 执行： #cat /etc/inetd.conf | grep ftp 查看该文件的ftp行是否添加了ftpd –lL 操作步骤 1、执行备份 #cp -p /etc/inetd.conf /etc/inetd.conf_bak 2、执行下列命inetd.conf令，编辑/etc/inetd.conf中的ftp行 #vi /etc/inetd.conf 在行末添加ftpd -lL ftp   stream tcp nowait root /usr/lbin/ftpd      ftpd -lL 3、重新启动inetd服务 #/sbin/init.d/inetd {stop|start} 回退操作 #cp -p /etc/inetd.conf_bak /etc/inetd.conf 风险说明 大量的日志记录可能影响系统性能并占用大量磁盘空间，需要重启服务 6.5 设置远程日志服务器 配置项名称 设备配置远程日志功能，将需要重点关注的日志内容传输到日志服务器。 检查方法 执行： #more /etc/syslog.conf 查看是否存在类似如下语句： *.*   @192.168.0.1 操作步骤 1、执行备份： #cp –p /etc/syslog.conf /etc/syslog.conf_bak 2、修改配置： #vi /etc/syslog.conf 
+
+IT运行能力 
+ 
+- 30 - 系统安全加固手册 加上这一行：  *.*   @192.168.0.1 可以将"*.*"替换为你实际需要的日志信息。比如：kern.* / mail.* 等等。192.168.0.1修改为实际的日志服务器。*.*和@之间为一个Tab。 3、重启syslog服务 #/sbin/init.d/syslogd stop #/sbin/init.d/syslogd start 回退操作 执行： #cp /etc/syslog.conf_bak /etc/syslog.conf #/sbin/init.d/syslogd stop #/sbin/init.d/syslogd start 风险说明 敏感信息传出后可能导致泄密 6.6 检查系统日志文件权限 配置项名称 检查系统日志文件权限 检查方法 执行： #ls -l /var/adm/ #ls -l /var/adm/syslog 查看系统日志文件权限设置情况 操作步骤 1、执行备份 记录需要修改的文件权限 2、执行下列命令，设置文件权限为640 #chmod 640 <filename> 回退操作 使用chmod命令恢复被修改文件的权限。 风险说明 低风险 
+
+IT运行能力 
+ 
+- 31 - 系统安全加固手册 7 其他安全配置要求 7.1 禁用图形界面登录 配置项名称 禁止图形界面登录 检查方法 执行： #more /etc/rc.config.d/desktop 查看该文件中是否存在DESKTOP="" 操作步骤 1、执行备份： #cp -p /etc/rc.config.d/desktop /etc/rc.config.d/desktop_bak 2、设置参数： #ch_rc -a -p DESKTOP="" /etc/rc.config.d/desktop  #chmod go-w,ug-s /usr/dt/bin/dtaction /usr/dt/bin/dtappgather /usr/dt/bin/dtprintinfo /usr/dt/bin/dtsession 回退操作 #cp -p /etc/rc.config.d/desktop_bak /etc/rc.config.d/desktop #chmod go+w,ug+s /usr/dt/bin/dtaction /usr/dt/bin/dtappgather /usr/dt/bin/dtprintinfo /usr/dt/bin/dtsession 风险说明 将导致不能从图形界面登录，影响操作习惯 7.2 字符交互界面帐户超时自动退出 配置项名称 对于具备字符交互界面的设备，应配置定时帐户自动登出。 检查方法 执行： #cat /etc/profile 查看/etc/profile文件中是否有TMOUT 操作步骤 1、执行备份 #cp -p /etc/profile /etc/profile_bak 2、设置自动锁定时间为180秒 
+
+IT运行能力 
+ 
+- 32 - 系统安全加固手册 #vi /etc/profile 增加一行 export TMOUT=180 回退操作 #cp -p /etc/profile_bak /etc/profile 风险说明 低风险 7.3 图形界面设置默认自动锁屏时间为10分钟 配置项名称 对于具备图形界面（含WEB界面）的设备，应配置自动屏幕锁定时间为10分钟。 检查方法 执行： #cat /etc/dt/config/C/sys.resources 查看有无dtsession*lockTimeout: 10和dtsession*saverTimeout: 10 操作步骤 1、执行备份 #cp -p /usr/dt/config/C/sys.resources /usr/dt/config/C/sys.resources_bak #cp -p /etc/dt/config/C/sys.resources /etc/dt/config/C/sys.resources_bak 2、设置自动锁屏时间为10分钟 # cp /usr/dt/config/C/sys.resources /etc/dt/config/C/sys.resources # vi /etc/dt/config/C/sys.resources 添加两行 dtsession*saverTimeout: 10 dtsession*lockTimeout: 10 回退操作 执行： #cp -p /usr/dt/config/C/sys.resources_bak /usr/dt/config/C/sys.resources #cp -p /etc/dt/config/C/sys.resources_bak /etc/dt/config/C/sys.resources 风险说明 低风险  

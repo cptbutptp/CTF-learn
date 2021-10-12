@@ -1,0 +1,226 @@
+原文链接：http://www.freebuf.com/sectool/107209.html
+
+
+如果你从事漏洞研究、逆向工程或者渗透测试，应该绝对试试Python！
+
+网络
+
+        Scapy, Scapy3k: 发送、嗅探、解析和伪造网络数据包，可交互使用或作为一个库使用。
+
+        pypcap,Pcapy 和pylibpcap: 一些不同的libpcap的Python绑定 
+
+        libdnet: 底层的网络程序，包括查询网络接口，发送以太网帧
+
+        dpkt: 快速而简单的包构造和解析器，有基本的TCP/IP协议的定义
+
+        Impacket: 构造和解码网络数据包。支持高层的协议，比如NMB和SMB
+
+        pynids: libnids开发包的封装，嗅探、IP重组、TCP流重组和端口扫描
+
+        Dirtbags py-pcap: 不使用libpcap的情况下读取pcap文件
+
+        flowgrep: 使用正则表达式查找包载荷
+
+        Knock Subdomain Scan：使用字典枚举目标域名的子域名
+
+        SubBrute：快速子域名枚举工具
+
+        Mallory：可扩展的TCP/UDP中间人攻击代理，支持联机修改非标准的协议
+
+        Pytbull: 灵活的IDS/IPS测试框架（搭载了超过300个测试项）
+
+        Spoodle: 一个集合了子域名扫描和poodle漏洞扫描的工具
+
+        SMBMap: 枚举整个域中的Samba共享驱动
+
+调试和逆向工程
+
+        Paimei: 逆向工程框架，包括PyDBG, PIDA, pGRAPH
+
+        Immunity Debugger:可编写脚本的图形界面和命令行调试器
+
+        mona.py:  Immunity Debugger的PyCommand，代替和改进pvefindaddr
+
+        IDAPython: IDA Pro插件，集成了Python编程语言，允许在IDA Pro上运行脚本
+
+        PyEMU: 可编写脚本的IA-32 模拟器, 用于恶意软件分析
+
+        pefile: 读取和处理PE文件
+
+        pydasm: libdasm x86反汇编库的Python接口
+
+        PyDbgEng: Microsoft Windows Debugging Engine的Python封装
+
+        uhooker: 拦截DLL中的API调用，也可以拦截可执行文件内存中的任意地址
+
+        diStorm: AMD64的反汇编库, 遵循BSD许可协议
+
+        python-ptrace: Python写的使用ptrace（Linux，BSD和Darwin系统函数，跟踪进程）的调试器
+
+        vdb / vtrace: vtrace是一个python写的跨平台的进程调试API，vdb是使用它的调试器
+
+        Androguard: 逆向和分析安卓应用程序
+
+        Capstone: Python绑定，多平台、多架构的轻量级反汇编框架
+
+        Keystone: Python绑定，多平台、多架构的轻量级汇编框架
+
+        PyBFD: GNU Binary File Descriptor (BFD)库的Python接口
+
+        CHIPSEC: 用于分析PC平台安全性的框架，包括硬件、系统固件（BIOS/UEFI)和平台组件
+
+模糊测试
+
+        afl-python: 使用American fuzzy lop fork server，可以监测纯Python代码
+
+        Sulley:  fuzzer开发，包含多个可扩展组件的fuzz测试框架
+
+        Peach Fuzzing Platform: 基于生成和变形的可扩展渗透测试框架(v2使用Python编写)
+
+        antiparser: fuzz测试和错误注入API
+
+        TAOF, (The Art of Fuzzing)，包括ProxyFuzz,一个基于中间人的非确定性网络fuzzer。
+
+        untidy:  生成XML fuzzer
+
+        Powerfuzzer: 高自动化和完全可定制的web fuzzer (基于HTTP协议的应用程序fuzzer)
+
+        SMUDGE
+
+        Mistress: 基于预定义的模式，使用畸形数据探测文件格式和协议
+
+        Fuzzbox: 多编码媒体fuzzer
+
+        Forensic FuzzingTools: 生成用于模糊测试的文件, 文件系统，用来测试取证工具的鲁棒性
+
+        Windows IPC FuzzingTools: 模糊测试采用Windows Interprocess Communication机制的应用程序
+
+        WSBang:对基于SOAP的web服务进行自动化安全测试
+
+        Construct: 分析和构造数据结构（二进制或文本）的库，以声明的方式定义你的数据结构
+
+        fuzzer.py(feliam): Felipe Andres Manzano的一个简单的fuzzer
+
+        Fusil: 用于写fuzzing程序的Python库
+
+Web
+
+        Requests: 一个简洁而简单的HTTP库
+
+        HTTPie: 人性化的类cURL命令行的HTTP客户端
+
+        ProxMon: 处理代理的日志，报告发现的问题
+
+        WSMap: 寻找web服务终端，发现文件
+
+        Twill: 通过命令行接口浏览web，支持自动化Web测试
+
+        Ghost.py: Python写的webkit web 客户端
+
+        Windmill: web测试工具，使你轻松地自动化调试web应用程序
+
+        FunkLoad: 加载web测试器
+
+        spynner: Python的web浏览器模块，支持Javascript/AJAX
+
+        python-spidermonkey: 连接Mozilla SpiderMonkey JavaScript引擎; 允许你执行和调用Javascript脚本和函数
+
+        mitmproxy: 支持SSL，拦截式的HTTP代理。可以通过控制台接口在线检查和编辑流量
+
+        pathod / pathoc: 测试HTTP客户端和服务器
+
+调查取证
+
+        Volatility: 从内存样本中提取数字特征
+
+        Rekall: Google开发的内存分析框架
+
+        LibForensics: 用来开发数字取证应用程序的库
+
+        TrIDLib：通过二进制签名识别文件类型，现在有了Python绑定
+
+        aft:  Android取证工具集
+
+恶意软件分析
+
+        pyew:: 命令行工具，十六进制编辑器和汇编器，主要用来分析恶意软件
+
+        Exefilter: 过滤出邮件、web页面以及文件中的exe文件，可检测常见的文件格式。
+
+        pyClamAV: 给你的Python软件增加病毒检测功能
+
+        jsunpack-n, JavaScript解析器，模拟浏览器功能，检测攻击浏览器和浏览器插件漏洞的exploits
+
+        yara-python: 识别和分类恶意软件样本
+
+        phoneyc: 纯Python的客户端蜜罐
+
+        CapTipper: 从PCAP文件中分析、探索、接收HTTP恶意流量
+
+PDF
+
+        peepdf:: Python工具，分析和探测PDF文件，判断它们是否有害。
+
+        Didier Stevens’ PDFtools:  分析，识别和构造PDF文件（包括PDFiD, pdf-parser，make-pdf以及mPDF）
+
+        Opaf: PDF分析框架，将PDF转换为可以分析和修改的XML树
+
+        Origapy: 清理PDF文件的Origami Ruby模块的Python封装
+
+        pyPDF2:  纯Python PDF工具集，提取信息，分割，合成，修剪，加密，解密等。
+
+        PDFMiner: 从PDF文件中提取文本
+
+        python-poppler-qt4:  Poppler PDF库的Python绑定，支持Qt4
+
+杂类
+
+        InlineEgg: 用Python写小型汇编程序的工具
+
+        Exomind: 构建配图和开发信息模块的框架，以社交网络、搜索引擎、即时消息为中心
+
+        RevHosts: 枚举给定IP地址的虚拟主机
+
+        simplejson: JSON编解码器，比如使用Google的AJAX API
+
+        PyMangle: 命令行工具和python库，构造其它渗透测试工具使用的字典
+
+        Hachoir: 查看和编辑二进制流
+
+        wmiexec.py: 通过WMI快速执行Powershell命令
+
+        Pentestly: Python和Powershell渗透测试框架
+
+其它有用的库和工具
+
+        IPython: 增强型的交互式Python shell，支持对象内省，系统shell访问，以及它自己的命令系统
+
+        Beautiful Soup: 优化screen-scraping的HTML解析器
+
+        matplotlib: 构造数组的2D平面图
+
+        Mayavi: 系统数据可视化和绘图
+
+        RTGraph3D: 创建3D动态图
+
+        Twisted:  事件驱动的网络引擎
+
+        Suds: 轻量级的SOAP客户端，使用Web Services
+
+        M2Crypto:最完整的OpenSSL封装
+
+        NetworkX: 图形库(边，节点)
+
+        Pandas:  一个库，用于开发高性能、易用的数据结构和数据分析工具
+
+        pyparsing: 通用的解析模块
+
+        lxml: Python语言中，功能丰富、易于使用的操作XML和HTML的库
+
+        Whoosh:  纯Pytho实现，快速、功能丰富的全文本索引和搜索库。
+
+        Pexpect: 控制和自动化其它程序，与Don Libes 的`Expect` 系统类似
+
+        Sikuli：可视化技术，通过截屏，搜索和自动化GUI，可用Jython编写脚本程序
+
+        PyQt 和PySide: Qt应用程序框架和GUI库的Python绑定 

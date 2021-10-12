@@ -1,0 +1,1 @@
+net localgroup "Power Users" "ghmc\IT-¿Í»§¶ËPowerUser" /add

@@ -1,0 +1,18 @@
+一、linux-defense-1.sh为基本linux安全加固，包含内容：
+1、账户锁定策略
+2、创建用户并加入wheel组，配置pam.d/su文件仅允许wheel组用户su到root账户
+3、配置SSH协议版本为ssh v2，配置SSH最大同时连接数为2（两个蓝队队员）
+
+二、linux-defense-2.sh实现禁止root权限用户远程登陆
+
+！！！！必须在linux-defense-1.sh执行完并且测试新建用户可以su到root后才可以
+！！！！执行第二个脚本，否则ssh登陆系统将永远无法获得root权限
+
+三、tomcat-defense.sh为tomcat加固脚本，实现：
+1、隐藏WEB管理界面使用的host-manager及manager文件夹，使得WEB管理界面链接失效
+2、隐藏默认安装后的examples文件夹，使得示例页面失效
+3、关闭目录自动列出功能
+4、修改8005端口后的SHUTDOWN口令
+5、关闭WAR包自动部署
+6、隐藏WEB页面及404页面显示的系统版本
+7、修改Telnet服务器8080端口后显示的信息

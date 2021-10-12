@@ -1,0 +1,13 @@
+1、如果是框架型应用，那麽就可以添加在入口文件，例如index.php，
+
+2、如果不是框架应用，那麽可以在公共配置文件config.php等相关文件中包含，添加以下代码：
+
+include('phpwaf.php');
+
+3、最后一种是替换index.php，也就是讲index.php改名为index2.php，然后讲phpwaf.php改成index.php，接着还要在原phpwaf.php中包含原来的index.php。
+
+index.php -> index2.php
+
+phpwaf.php -> index.php
+
+include('index2.php');

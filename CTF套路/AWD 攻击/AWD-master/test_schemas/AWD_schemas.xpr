@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="17.0">
+    <meta>
+        <filters directoryPatterns="" filePatterns="" positiveFilePatterns="" showHiddenFiles="false"/>
+        <options/>
+    </meta>
+    <projectTree name="AWD_schemas.xpr">
+        <file name="../../../Documents/Dissertation/schema/abstract_schema.rng"/>
+        <file name="../../../Documents/Dissertation/schema/abstract_style.css"/>
+        <file name="../../../Documents/Dissertation/schema/abstract_template.xml"/>
+        <file name="../../../Documents/Dissertation/schema/compiled_schema.rng"/>
+        <file name="development_schmea.rng"/>
+        <file name="../../../Documents/Dissertation/schema/ex_abstract_1.xml"/>
+        <file name="normal_format.xsl"/>
+        <file name="tei_bare.rng"/>
+        <file name="tei_jtei.rng"/>
+        <file name="tei_lite.rng"/>
+        <file name="test_doc1.xml"/>
+        <file name="test_doc2.xml"/>
+        <file name="../../../Documents/Dissertation/schema/test_schema.rng"/>
+        <file name="../../../Documents/Dissertation/schema/test_transform.xsl"/>
+        <file name="../../../Documents/Dissertation/schema/testCompile.xml"/>
+        <file name="../../../Documents/Dissertation/schema/trans_abstract.xsl"/>
+        <file name="useful_templates.xsl"/>
+    </projectTree>
+</project>

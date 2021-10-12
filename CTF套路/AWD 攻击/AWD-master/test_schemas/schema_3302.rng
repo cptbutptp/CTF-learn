@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+    xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+
+    <!-- MACROS -->
+    <define name="macro.paraContent">
+        <zeroOrMore>
+            <choice>
+                <text/>
+                <!--<ref name="model.phrase"/>
+                <ref name="model.inter"/>-->
+
+                <ref name="model.global"/>
+            </choice>
+        </zeroOrMore>
+    </define>
+    <!-- ATTRIBUTE CLASSES AND DEFINITIONS -->
+    <!-- global attributes -->
+    <define name="att.global.attributes">
+        <ref name="att.global.rendition.attributes"/>
+        <ref name="att.global.linking.attributes"/>
+        <ref name="att.global.responsibility.attributes"/>
+        <ref name="att.global.attribute.xmlid"/>
+        <ref name="att.global.attribute.n"/>
+    </define>
+    <define name="att.global.linking.attributes">
+        <ref name="att.global.linking.attribute.corresp"/>
+        <ref name="att.global.linking.attribute.next"/>
+        <ref name="att.global.linking.attribute.prev"/>
+    </define>
+    <define name="att.global.linking.attribute.corresp">
+        <optional>
+            <attribute name="corresp">
+                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                    >(corresponds) points to elements that correspond to the current element in some
+                    way.</a:documentation>
+                <list>
+                    <oneOrMore>
+                        <data type="anyURI"/>
+                    </oneOrMore>
+                </list>
+            </attribute>
+        </optional>
+    </define>
+    <define name="att.global.linking.attribute.next">
+        <optional>
+            <attribute name="next">
+                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                    >points to the next element of a virtual aggregate of which the current element
+                    is part.</a:documentation>
+                <data type="anyURI"/>
+            </attribute>
+        </optional>
+    </define>
+    <define name="att.global.linking.attribute.prev">
+        <optional>
+            <attribute name="prev">
+                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+                    >(previous) points to the previous element of a virtual aggregate of which the
+                    current element is part.</a:documentation>
+                <data type="anyURI"/>
+            </attribute>
+        </optional>
+    </define>
+    <define name="att.global.attribute.xmlid">
+        <optional>
+            <attribute name="xml:id">
+                <a:documentation>(identifier) provides a unique identifier for the element bearing
+                    the attribute.</a:documentation>
+                <data type="ID"/>
+            </attribute>
+        </optional>
+    </define>
+    <define name="att.global.attribute.n">
+        <optional>
+            <attribute name="n">
+                <a:documentation>(number) gives a number (or other label) for an element, which is
+                    not necessarily unique within the document.</a:documentation>
+                <data type="string"/>
+            </attribute>
+        </optional>
+    </define>
+    <define name="att.global.rendition.attributes">
+        <ref name="att.global.rendition.attribute.rend"/>
+    </define>
+    <define name="att.global.rendition.attribute.rend">
+        <optional>
+            <attribute name="rend">
+                <a:documentation>(rendition) indicates how the element in question should be
+                    rendered or presented in the source text.</a:documentation>
+                <list>
+                    <oneOrMore>
+                        <data type="token">
+                            <param name="pattern">(\p{L}|\p{N}|\p{P}|\p{S})+</param>
+                        </data>
+                    </oneOrMore>
+                </list>
+            </attribute>
+        </optional>
+    </define>
+    <define name="att.global.responsibility.attributes">
+        <ref name="att.global.responsibility.attribute.resp"/>
+    </define>
+    <define name="att.global.responsibility.attribute.resp">
+        <optional>
+            <attribute name="resp">
+                <a:documentation>(responsible party) indicates the agency responsible for the
+                    intervention or interpretation, for example a docAuthor or peer reviewer. Be
+                    sure to use your xml:id</a:documentation>
+                <list>
+                    <oneOrMore>
+                        <data type="anyURI"/>
+                    </oneOrMore>
+                </list>
+            </attribute>
+        </optional>
+    </define>
+
+    <!-- for @type and @subtype -->
+    <define name="att.typed.attributes">
+        <ref name="att.typed.attribute.type"/>
+        <ref name="att.typed.attribute.subtype"/>
+    </define>
+    <define name="att.typed.attribute.type">
+        <optional>
+            <attribute name="type">
+                <a:documentation>characterizes the element in some sense, using any convenient
+                    classification scheme or typology.</a:documentation>
+            </attribute>
+        </optional>
+    </define>
+    <define name="att.typed.attribute.subtype">
+        <optional>
+            <attribute name="subtype">
+                <a:documentation>provides a sub-categorization of the element, if
+                    needed</a:documentation>
+            </attribute>
+        </optional>
+    </define>
+
+    <!-- for URLs -->
+    <define name="att.resourced.attributes">
+        <ref name="att.resourced.attribute.url"/>
+    </define>
+    <define name="att.resourced.attribute.url">
+        <attribute name="url">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(uniform
+                resource locator) specifies the URL from which the media concerned may be
+                obtained.</a:documentation>
+            <data type="anyURI"/>
+        </attribute>
+    </define>
+
+    <!-- CONTENT MODELS -->
+    <define name="model.global">
+        <choice>
+            <ref name="model.noteLike"/>
+            <!--<ref name="figure"/> hold off on figure for now-->
+        </choice>
+    </define>
+    <define name="model.divLike">
+        <ref name="div"/>
+    </define>
+    <define name="model.divPart">
+        <choice>
+            <ref name="model.pLike"/>
+        </choice>
+    </define>
+    <define name="model.pLike">
+        <choice>
+            <ref name="p"/>
+        </choice>
+    </define>
+    <define name="model.noteLike">
+        <ref name="note"/>
+    </define>
+    <define name="model.biblLike">
+        <choice>
+            <ref name="bibl"/>
+            <ref name="listBibl"/>
+        </choice>
+    </define>
+    <!-- ELEMENT DEFINITIONS -->
+    <define name="note">
+        <element name="note">
+            <a:documentation>contains a note made on the text intended to provide additional
+                information or comment upon the text</a:documentation>
+            <optional>
+                <ref name="att.global.attributes"/>
+                <ref name="att.typed.attributes"/>
+            </optional>
+            <text/>
+        </element>
+    </define>
+    <define name="bibl">
+        <element name="bibl">
+            <a:documentation>(bibliographic citation) contains a bibliographic
+                citation.</a:documentation>
+            <zeroOrMore>
+                <choice>
+                    <text/>
+                    <ref name="model.global"/>
+                </choice>
+            </zeroOrMore>
+            <!--<ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>-->
+            <empty/>
+        </element>
+    </define>
+    <define name="listBibl">
+        <element name="listBibl">
+            <a:documentation>(bibliographic list) contains a list of bibliographic
+                citations.</a:documentation>
+            <choice>
+                <oneOrMore>
+                    <choice>
+                        <ref name="model.biblLike"/>
+                    </choice>
+                </oneOrMore>
+            </choice>
+            <!-- <ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>  -->
+        </element>
+    </define>
+    <define name="version">
+        <element name="version">
+            <text/>
+            <ref name="att.global.attribute.n"/>
+        </element>
+    </define>
+    <define name="author">
+        <element name="author">
+            <text/>
+            <ref name="att.global.attribute.xmlid"/>
+        </element>
+        
+    </define>
+    <define name="title">
+        <element name="title">
+            <text/>
+        </element>
+    </define>
+    <define name="p">
+        <element name="p">
+            <a:documentation>(paragraph) a division of text indicating a
+                paragraph.</a:documentation>
+            <ref name="macro.paraContent"/>
+            <ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>
+        </element>
+    </define>
+    <define name="div">
+        <element name="div">
+            <zeroOrMore>
+                <choice>
+                    <ref name="model.divPart"/>
+                </choice>
+            </zeroOrMore>
+        </element>
+    </define>
+    <define name="report">
+        <element name="report">
+            <zeroOrMore>
+                <choice>
+                    <ref name="model.divPart"/>
+                </choice>
+            </zeroOrMore>
+            <ref name="att.typed.attributes"/>
+        </element>
+    </define>
+    <define name="docReview">
+        <element name="docReview">
+            <zeroOrMore>
+                <choice>
+                    <ref name="report"/>
+                    <ref name="model.global"/>
+                </choice>
+            </zeroOrMore>
+        </element>
+    </define>
+    <define name="docFoot">
+        <element name="docFoot">
+            <ref name="model.biblLike"/>
+        </element>
+    </define>
+    <define name="body">
+        <element name="body">
+            <zeroOrMore>
+                <ref name="model.divLike"/>
+            </zeroOrMore>
+        </element>
+    </define>
+    <define name="docHead">
+        <element name="docHead">
+            <group>
+                <interleave>
+                    <ref name="title"/>
+                    <ref name="author"/>
+                    <oneOrMore>
+                        <ref name="version"/>
+                    </oneOrMore>
+                    <zeroOrMore>
+                        <ref name="model.global"/>
+                    </zeroOrMore>
+                </interleave>
+            </group>
+
+
+
+        </element>
+    </define>
+    <define name="DOC">
+        <element name="DOC">
+            <group>
+                <ref name="docHead"/>
+                <ref name="body"/>
+                <optional>
+                    <ref name="docFoot"/>
+                </optional>
+                <zeroOrMore>
+                    <ref name="docReview"/>
+                </zeroOrMore>
+            </group>
+            <ref name="att.global.attributes"/>
+            <ref name="att.typed.attributes"/>
+        </element>
+    </define>
+
+    <start>
+        <ref name="DOC"/>
+    </start>
+</grammar>

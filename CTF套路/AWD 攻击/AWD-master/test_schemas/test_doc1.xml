@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="development_schmea.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<DOC type="abstract">
+    <docHeader>
+        <note resp="#WM">fuck yeah</note>
+        <docDesc>
+            <titleStmt>
+                <docTitle>Test_doc1</docTitle>
+                <docAuthor xml:id="WM">Author Name<note>this is a note, which is allowed here because of the addition of the global elements</note></docAuthor>              
+            </titleStmt>
+            <reflStmt>
+                <p></p>
+            </reflStmt>
+            <peerReview>
+                <note>optional note #1</note>
+                <reviewer xml:id="WW">Reviewer_name <note>optional note on reviewer name</note></reviewer>
+                <note>optional note #2</note>
+            </peerReview>
+        </docDesc>
+    </docHeader>
+    <text>
+        <front>
+            <q type="written">This is an epigraph which precedes the main body of the text.</q>
+        </front>
+        <body>
+            <div type="chapter">
+                <div type="section">
+                    <p>Text goes here <anchor type="link" xml:id="stuff"  /> for structural 
+                        <cit><q>This is a quote with a bibliographic citation attached.</q><bibl>(Smith, 2018)</bibl></cit>purposesssssssssssssss.</p>
+                    <p></p>
+                </div>
+                <div type="section">
+                    <p>Second section.</p>
+                    <div type="subsection">
+                        <p>Infinite layers!</p>
+                    </div>
+                </div>
+            </div>
+            
+        </body>
+        <back>
+            <listBibl>
+                <bibl>Smith, Kevin. "Designing XML in the Composition Classroom." Unpublished dissertation. May, 2018.</bibl>
+            </listBibl>
+        </back>       
+    </text>
+</DOC>

@@ -1,0 +1,22 @@
+@import (css) "./select2.css";
+
+.facebookAWD{
+    // Core variables and mixins
+    @import "bootstrap/bootstrap.less";
+
+    .nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+        outline:none;
+    }
+
+    //like button popin hack
+    .fb-like span{overflow:visible; width:450px !important;}
+
+    //add modal margin bigger admin bar and more
+    .modal-dialog{
+        margin: 60px auto;
+    }
+}
+//fix select2 z-index (on widget custom page)
+.select2-container--open .select2-dropdown{
+    z-index: 999999;
+}
