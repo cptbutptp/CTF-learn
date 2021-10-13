@@ -1,6 +1,0 @@
-index.php
-login.php
-register.php
-test.php
-phpinfo.php
-t.php

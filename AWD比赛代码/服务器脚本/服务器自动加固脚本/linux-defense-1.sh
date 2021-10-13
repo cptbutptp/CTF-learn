@@ -1,10 +1,10 @@
-#ï¼ /bin/bash
+#£¡ /bin/bash
 
-## Shell Script For Linux OS Defence, Depends on CentOS 7ï¼ŒVersion 1.0, Written By CaiMengChen 2016-06-13
+## Shell Script For Linux OS Defence, Depends on CentOS 7£¬Version 1.0, Written By CaiMengChen 2016-06-13
 ## Maybe You Need To Restart Linux After Execute This Shell Script
 
 echo "Start To Run This Script ......"
-## æ·»åŠ è´¦æˆ·é”å®šç­–ç•¥
+## Ìí¼ÓÕË»§Ëø¶¨²ßÂÔ
 
 echo "***************************************************************"
 echo "***************************************************************"
@@ -12,9 +12,9 @@ echo "***************************************************************"
 if [ -e /etc/pam.d/system-auth ];then
 	echo "File: system-auth Is Found, Now Check String "pam_tally.so" ..."
 	
-	## åˆ¤æ–­pam_tallyæ˜¯å¦å·²ç»å­˜åœ¨ï¼Œå¦‚æœå·²ç»å­˜åœ¨è¿”å›å€¼$?ä¸º0ï¼Œä¸å­˜åœ¨$?è¿”å›å€¼ä¸º1
-	## grep -q ä¸æ‰“å°ä»»ä½•æ ‡å‡†è¾“å‡ºï¼Œå¦‚æœæœ‰åŒ¹é…çš„å†…å®¹ç«‹å³è¿”å›çŠ¶æ€å€¼0,æ²¡æœ‰åŒ¹é…åˆ™è¿”å›çŠ¶æ€å€¼1
-	## Linuxä¸‹çš„ifåˆ¤æ–­è¯­å¥0å€¼ä¸ºçœŸï¼Œä¸Cè¯­è¨€æ­£å¥½ç›¸å
+	## ÅĞ¶Ïpam_tallyÊÇ·ñÒÑ¾­´æÔÚ£¬Èç¹ûÒÑ¾­´æÔÚ·µ»ØÖµ$?Îª0£¬²»´æÔÚ$?·µ»ØÖµÎª1
+	## grep -q ²»´òÓ¡ÈÎºÎ±ê×¼Êä³ö£¬Èç¹ûÓĞÆ¥ÅäµÄÄÚÈİÁ¢¼´·µ»Ø×´Ì¬Öµ0,Ã»ÓĞÆ¥ÅäÔò·µ»Ø×´Ì¬Öµ1
+	## LinuxÏÂµÄifÅĞ¶ÏÓï¾ä0ÖµÎªÕæ£¬ÓëCÓïÑÔÕıºÃÏà·´
 
 	if grep	-q 'pam_tally' /etc/pam.d/system-auth ;then
 		echo "The pam_tally has already been configured, Please Check it in-hand ..."
@@ -29,8 +29,8 @@ else
 	echo "File: system-auth Cannot Be Found, Please Check it in-hand ... "
 fi
 
-## åˆ›å»ºä¸€ä¸ªè¿œç¨‹ç™»é™†è´¦æˆ·ï¼Œå…è®¸å…¶suåˆ°ROOTæƒé™ï¼Œç¦æ­¢å…¶ä»–ä»»ä½•ç”¨æˆ·suåˆ°ROOTæƒé™ï¼Œå¹¶ä¸”å…³é—­ROOTç”¨æˆ·çš„è¿œç¨‹ç™»é™†æƒé™
-## å¯ä»¥suçš„ç”¨æˆ·å¿…é¡»åœ¨wheelç»„ä¸­ï¼Œusermod -G wheel ç”¨æˆ·å
+## ´´½¨Ò»¸öÔ¶³ÌµÇÂ½ÕË»§£¬ÔÊĞíÆäsuµ½ROOTÈ¨ÏŞ£¬½ûÖ¹ÆäËûÈÎºÎÓÃ»§suµ½ROOTÈ¨ÏŞ£¬²¢ÇÒ¹Ø±ÕROOTÓÃ»§µÄÔ¶³ÌµÇÂ½È¨ÏŞ
+## ¿ÉÒÔsuµÄÓÃ»§±ØĞëÔÚwheel×éÖĞ£¬usermod -G wheel ÓÃ»§Ãû
 echo "***************************************************************"
 echo "***************************************************************"
 echo "***************************************************************"
@@ -39,14 +39,14 @@ useradd justforssh
 usermod -G wheel justforssh  
 passwd justforssh
 
-## å…è®¸æ–°å»ºç”¨æˆ·suåˆ°ROOTæƒé™ï¼Œç¦æ­¢å…¶ä»–ç”¨æˆ·suåˆ°ROOTæƒé™
+## ÔÊĞíĞÂ½¨ÓÃ»§suµ½ROOTÈ¨ÏŞ£¬½ûÖ¹ÆäËûÓÃ»§suµ½ROOTÈ¨ÏŞ
 
 if [ -e /etc/pam.d/su ];then
 	echo "File: su Is Found, Now Check String "pam_wheel.so use_uid" ..."
 	
-	## åˆ¤æ–­"#auth required pam_wheel.so use_uid"æ˜¯å¦å·²ç»å­˜åœ¨ï¼Œå¦‚æœå·²ç»å­˜åœ¨è¿”å›å€¼$?ä¸º0ï¼Œä¸å­˜åœ¨$?è¿”å›å€¼ä¸º1
-	## grep -q ä¸æ‰“å°ä»»ä½•æ ‡å‡†è¾“å‡ºï¼Œå¦‚æœæœ‰åŒ¹é…çš„å†…å®¹ç«‹å³è¿”å›çŠ¶æ€å€¼0,æ²¡æœ‰åŒ¹é…åˆ™è¿”å›çŠ¶æ€å€¼1
-	## Linuxä¸‹çš„ifåˆ¤æ–­è¯­å¥0å€¼ä¸ºçœŸï¼Œä¸Cè¯­è¨€æ­£å¥½ç›¸å
+	## ÅĞ¶Ï"#auth required pam_wheel.so use_uid"ÊÇ·ñÒÑ¾­´æÔÚ£¬Èç¹ûÒÑ¾­´æÔÚ·µ»ØÖµ$?Îª0£¬²»´æÔÚ$?·µ»ØÖµÎª1
+	## grep -q ²»´òÓ¡ÈÎºÎ±ê×¼Êä³ö£¬Èç¹ûÓĞÆ¥ÅäµÄÄÚÈİÁ¢¼´·µ»Ø×´Ì¬Öµ0,Ã»ÓĞÆ¥ÅäÔò·µ»Ø×´Ì¬Öµ1
+	## LinuxÏÂµÄifÅĞ¶ÏÓï¾ä0ÖµÎªÕæ£¬ÓëCÓïÑÔÕıºÃÏà·´
 
 	if grep	-q '#.*pam_wheel.so use_uid' /etc/pam.d/su ;then
 		echo "The pam_wheel.so group is not configured, configure it now..."
@@ -62,7 +62,7 @@ else
 	echo "File: su Cannot Be Found, Please Check it in-hand ... "
 fi
 
-## æŸ¥çœ‹SSHç‰ˆæœ¬ã€å…è®¸å¯†ç é”™è¯¯æ¬¡æ•°
+## ²é¿´SSH°æ±¾¡¢ÔÊĞíÃÜÂë´íÎó´ÎÊı
 echo "***************************************************************"
 echo "***************************************************************"
 echo "***************************************************************"
@@ -70,7 +70,7 @@ echo "***************************************************************"
 if [ -e /etc/ssh/sshd_config ];then
 	echo "File: sshd_config Is Found ..."
 				
-	## ä¿®æ”¹SSHç‰ˆæœ¬ä¸º2ï¼Œé‡‡å–ç›´æ¥åˆ é™¤æ³¨é‡Šçš„æ–¹å¼
+	## ĞŞ¸ÄSSH°æ±¾Îª2£¬²ÉÈ¡Ö±½ÓÉ¾³ı×¢ÊÍµÄ·½Ê½
 	
 	if grep	-q '#Protocol 2' /etc/ssh/sshd_config ;then
 		echo "The Protocol is not configured, Now CONFIGURE it ..."
@@ -84,7 +84,7 @@ if [ -e /etc/ssh/sshd_config ];then
 		echo "Cannot Find Anything About Protocol, Please Check it out ..."
 	fi
 	
-	## ä¿®æ”¹å…è®¸å¯†ç é”™è¯¯æ¬¡æ•°ä¸º3ï¼Œç›´æ¥ä¿®æ”¹æ³¨é‡Šæ–‡ä»¶ï¼Œå»é™¤æ³¨é‡Šå¹¶èµ‹å€¼
+	## ĞŞ¸ÄÔÊĞíÃÜÂë´íÎó´ÎÊıÎª3£¬Ö±½ÓĞŞ¸Ä×¢ÊÍÎÄ¼ş£¬È¥³ı×¢ÊÍ²¢¸³Öµ
 	
 	if grep	-q '#MaxAuthTries' /etc/ssh/sshd_config ;then
 		echo "The MaxAuthTries is not configured, Now CONFIGURE it ..."
@@ -101,7 +101,7 @@ if [ -e /etc/ssh/sshd_config ];then
 	grep 'MaxAuthTries' /etc/ssh/sshd_config
 	echo "The MaxAuthTries has been configured, Please Check it out ..."
 	
-	## ä¿®æ”¹æœ€å¤§è¿æ¥æ•°ä¸º2ï¼Œç›´æ¥ä¿®æ”¹æ³¨é‡Šæ–‡ä»¶ï¼Œå»é™¤æ³¨é‡Šå¹¶èµ‹å€¼
+	## ĞŞ¸Ä×î´óÁ¬½ÓÊıÎª2£¬Ö±½ÓĞŞ¸Ä×¢ÊÍÎÄ¼ş£¬È¥³ı×¢ÊÍ²¢¸³Öµ
 	if grep	-q '#MaxSessions' /etc/ssh/sshd_config ;then
 		echo "The MaxSessions is not configured, Now CONFIGURE it ..."
 		sed -i -e 's/#MaxSessions.*/MaxSessions 2' /etc/ssh/sshd_config
@@ -125,7 +125,7 @@ else
 	echo "File: sshd_config Cannot Be Found, Please Check it in-hand ... "
 fi
 
-## ä¿®æ”¹é‡è¦ç›®å½•åŠæ–‡æ¡£çš„æƒé™
+## ĞŞ¸ÄÖØÒªÄ¿Â¼¼°ÎÄµµµÄÈ¨ÏŞ
 #echo "***************************************************************"
 #echo "***************************************************************"
 #echo "***************************************************************"

