@@ -8,21 +8,21 @@ import ntpath
 import time
 
 CWD = os.getcwd()
-FILE_MD5_DICT = {}      # ÎÄ¼şMD5×Öµä
+FILE_MD5_DICT = {}      # æ–‡ä»¶MD5å­—å…¸
 ORIGIN_FILE_LIST = []
 
-# ÌØÊâÎÄ¼şÂ·¾¶×Ö·û´®
+# ç‰¹æ®Šæ–‡ä»¶è·¯å¾„å­—ç¬¦ä¸²
 Special_path_str = 'drops_JWI96TY7ZKNMQPDRUOSG0FLH41A3C5EXVB82'
 bakstring = 'bak_EAR1IBM0JT9HZ75WU4Y3Q8KLPCX26NDFOGVS'
 logstring = 'log_WMY4RVTLAJFB28960SC3KZX7EUP1IHOQN5GD'
 webshellstring = 'webshell_WMY4RVTLAJFB28960SC3KZX7EUP1IHOQN5GD'
 difffile = 'diff_UMTGPJO17F82K35Z0LEDA6QB9WH4IYRXVSCN'
 
-Special_string = 'drops_log'  # ÃâËÀ½ğÅÆ
+Special_string = 'drops_log'  # å…æ­»é‡‘ç‰Œ
 UNICODE_ENCODING = "utf-8"
 INVALID_UNICODE_CHAR_FORMAT = r"\?%02x"
 
-# ÎÄ¼şÂ·¾¶×Öµä
+# æ–‡ä»¶è·¯å¾„å­—å…¸
 spec_base_path = os.path.realpath(os.path.join(CWD, Special_path_str))
 Special_path = {
     'bak' : os.path.realpath(os.path.join(spec_base_path, bakstring)),
@@ -34,7 +34,7 @@ Special_path = {
 def isListLike(value):
     return isinstance(value, (list, tuple, set))
 
-# »ñÈ¡Unicode±àÂë
+# è·å–Unicodeç¼–ç 
 def getUnicode(value, encoding=None, noneToNull=False):
 
     if noneToNull and value is None:
@@ -61,7 +61,7 @@ def getUnicode(value, encoding=None, noneToNull=False):
         except UnicodeDecodeError:
             return unicode(str(value), errors="ignore")
 
-# Ä¿Â¼´´½¨
+# ç›®å½•åˆ›å»º
 def mkdir_p(path):
     import errno
     try:
@@ -71,7 +71,7 @@ def mkdir_p(path):
             pass
         else: raise
 
-# »ñÈ¡µ±Ç°ËùÓĞÎÄ¼şÂ·¾¶
+# è·å–å½“å‰æ‰€æœ‰æ–‡ä»¶è·¯å¾„
 def getfilelist(cwd):
     filelist = []
     for root,subdirs, files in os.walk(cwd):
@@ -81,7 +81,7 @@ def getfilelist(cwd):
                 filelist.append(originalfile)
     return filelist
 
-# ¼ÆËã»úÎÄ¼şMD5Öµ
+# è®¡ç®—æœºæ–‡ä»¶MD5å€¼
 def calcMD5(filepath):
     try:
         with open(filepath,'rb') as f:
@@ -98,7 +98,7 @@ def calcMD5(filepath):
         except KeyError, e:
             pass
 
-# »ñÈ¡ËùÓĞÎÄ¼şMD5
+# è·å–æ‰€æœ‰æ–‡ä»¶MD5
 def getfilemd5dict(filelist = []):
     filemd5dict = {}
     for ori_file in filelist:
@@ -108,7 +108,7 @@ def getfilemd5dict(filelist = []):
                 filemd5dict[ori_file] = md5
     return filemd5dict
 
-# ±¸·İËùÓĞÎÄ¼ş
+# å¤‡ä»½æ‰€æœ‰æ–‡ä»¶
 def backup_file(filelist=[]):
     # if len(os.listdir(Special_path['bak'])) == 0:
     for filepath in filelist:
@@ -119,14 +119,14 @@ if __name__ == '__main__':
     print u'---------start------------'
     for value in Special_path:
         mkdir_p(Special_path[value])
-    # »ñÈ¡ËùÓĞÎÄ¼şÂ·¾¶£¬²¢»ñÈ¡ËùÓĞÎÄ¼şµÄMD5£¬Í¬Ê±±¸·İËùÓĞÎÄ¼ş
+    # è·å–æ‰€æœ‰æ–‡ä»¶è·¯å¾„ï¼Œå¹¶è·å–æ‰€æœ‰æ–‡ä»¶çš„MD5ï¼ŒåŒæ—¶å¤‡ä»½æ‰€æœ‰æ–‡ä»¶
     ORIGIN_FILE_LIST = getfilelist(CWD)
     FILE_MD5_DICT = getfilemd5dict(ORIGIN_FILE_LIST)
-    backup_file(ORIGIN_FILE_LIST) # TODO ±¸·İÎÄ¼ş¿ÉÄÜ»á²úÉúÖØÃûBUG
+    backup_file(ORIGIN_FILE_LIST) # TODO å¤‡ä»½æ–‡ä»¶å¯èƒ½ä¼šäº§ç”Ÿé‡åBUG
     print u'[*] pre work end!'
     while True:
         file_list = getfilelist(CWD)
-        # ÒÆ³ıĞÂÉÏ´«ÎÄ¼ş
+        # ç§»é™¤æ–°ä¸Šä¼ æ–‡ä»¶
         diff_file_list = list(set(file_list) ^ set(ORIGIN_FILE_LIST))
         if len(diff_file_list) != 0:
             # import pdb;pdb.set_trace()
@@ -148,7 +148,7 @@ if __name__ == '__main__':
                     except Exception as e:
                         print u'[-] log error : file move error: ' + getUnicode(e)
 
-        # ·ÀÖ¹ÈÎÒâÎÄ¼ş±»ĞŞ¸Ä,»¹Ô­±»ĞŞ¸ÄÎÄ¼ş
+        # é˜²æ­¢ä»»æ„æ–‡ä»¶è¢«ä¿®æ”¹,è¿˜åŸè¢«ä¿®æ”¹æ–‡ä»¶
         md5_dict = getfilemd5dict(ORIGIN_FILE_LIST)
         for filekey in md5_dict:
             if md5_dict[filekey] != FILE_MD5_DICT[filekey]:

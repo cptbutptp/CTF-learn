@@ -5,3 +5,6 @@ ubuntu - nproc 20
 
     include_once('waf.php');
     require_once('waf.php');
+
+按终端号踢出
+$pkill -kill -t pts/4
