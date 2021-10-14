@@ -8,3 +8,4 @@ ubuntu - nproc 20
 
 按终端号踢出
 $pkill -kill -t pts/4
+ 
